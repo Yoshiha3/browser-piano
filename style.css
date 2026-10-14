@@ -1,0 +1,121 @@
+:root {
+  --bg: #14161c;
+  --panel: #1d2029;
+  --text: #e6e8ee;
+  --muted: #9aa0ad;
+  --accent: #5ab0ff;
+  --accent-black: #3d7fd6;
+  --white-key: #f7f7f4;
+  --white-key-mapped: #e8f1fb;
+  --black-key: #22242b;
+  --keyboard-height: clamp(120px, 30vh, 240px);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Hiragino Sans", sans-serif;
+  overflow: hidden;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  padding: 8px 16px;
+  background: var(--panel);
+}
+
+.toolbar h1 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+.keyboard {
+  position: relative;
+  flex: none;
+  height: var(--keyboard-height);
+  margin: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  touch-action: none;
+}
+
+.key {
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px;
+  padding-bottom: 8px;
+  font-size: clamp(9px, 1.4vw, 13px);
+  cursor: pointer;
+}
+
+.key.white {
+  z-index: 1;
+  height: 100%;
+  background: var(--white-key);
+  border: 1px solid #b9bcc4;
+  border-radius: 0 0 6px 6px;
+  color: #555b66;
+}
+
+.key.white.mapped {
+  background: var(--white-key-mapped);
+}
+
+.key.black {
+  z-index: 2;
+  height: 62%;
+  background: var(--black-key);
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 2px 3px rgb(0 0 0 / 0.5);
+  color: #c8ccd6;
+  padding-bottom: 6px;
+}
+
+.key.black.mapped {
+  background: #2c3443;
+}
+
+.key.white.pressed {
+  background: var(--accent);
+  color: #fff;
+}
+
+.key.black.pressed {
+  background: var(--accent-black);
+}
+
+.key-label {
+  font-weight: 700;
+}
+
+.note-name {
+  color: #9aa0ad;
+  font-size: 0.85em;
+}
