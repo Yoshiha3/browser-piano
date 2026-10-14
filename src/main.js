@@ -3,30 +3,39 @@ import { Synth } from './synth.js';
 import { KeyboardUI } from './keyboard-ui.js';
 import { PressTracker } from './press-tracker.js';
 import { KeyboardInput } from './input.js';
+import { Roll } from './roll.js';
+import { RollView, now } from './roll-view.js';
 import {
   buildKeymap, labelsByNote, shiftBase, DEFAULT_BASE, SHIFT_SHORTCUTS,
 } from './keymap.js';
 
 const synth = new Synth();
 const tracker = new PressTracker();
+const roll = new Roll();
+const rollView = new RollView(document.getElementById('stage'), roll);
 
 function press(midi, sourceId) {
   if (!tracker.press(midi, sourceId)) return;
   synth.noteOn(midi);
   keyboard.setPressed(midi, true);
+  roll.noteOn(midi, now());
+  rollView.start();
 }
 
 function release(midi, sourceId) {
   if (!tracker.release(midi, sourceId)) return;
   synth.noteOff(midi);
   keyboard.setPressed(midi, false);
+  roll.noteOff(midi, now());
 }
 
 const keyboard = new KeyboardUI(document.getElementById('keyboard'), {
   onPress: press,
   onRelease: release,
 });
-keyboard.render(buildLayout(parseNote('C3'), parseNote('C6')));
+const layout = buildLayout(parseNote('C3'), parseNote('C6'));
+keyboard.render(layout);
+rollView.setLayout(layout);
 
 let base = DEFAULT_BASE;
 
@@ -56,4 +65,4 @@ for (const button of document.querySelectorAll('[data-shift]')) {
 setBase(DEFAULT_BASE);
 
 // デバッグ・動作確認用
-window.piano = { synth, tracker, keyboard, input };
+window.piano = { synth, tracker, keyboard, input, roll };
