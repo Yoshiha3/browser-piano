@@ -82,6 +82,66 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+.settings {
+  position: relative;
+  margin-left: auto;
+}
+
+.settings summary {
+  list-style: none;
+  padding: 6px 12px;
+  border: 1px solid #3a3f4c;
+  border-radius: 6px;
+  background: #272b36;
+  cursor: pointer;
+}
+
+.settings summary::-webkit-details-marker {
+  display: none;
+}
+
+.settings-panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 10;
+  display: grid;
+  gap: 12px;
+  width: min(260px, calc(100vw - 32px));
+  padding: 14px;
+  border: 1px solid #3a3f4c;
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.4);
+}
+
+.settings-panel label {
+  display: grid;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.settings-panel label.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+}
+
+.settings-panel select {
+  padding: 4px;
+  border: 1px solid #3a3f4c;
+  border-radius: 4px;
+  background: #272b36;
+  color: var(--text);
+  font: inherit;
+}
+
+.keyboard.hide-labels .key-label {
+  visibility: hidden;
+}
+
 .stage {
   position: relative;
   flex: 1;

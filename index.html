@@ -18,6 +18,24 @@
       <button type="button" data-shift="1" title="白鍵 1 つ上げる (.)">›</button>
       <button type="button" data-shift="7" title="1 オクターブ上げる (X)">»</button>
     </div>
+    <details class="settings">
+      <summary>設定</summary>
+      <div class="settings-panel">
+        <label>表示範囲（下端）
+          <select id="range-start"></select>
+        </label>
+        <label>表示範囲（上端）
+          <select id="range-end"></select>
+        </label>
+        <label>音量
+          <input id="volume" type="range" min="0" max="1" step="0.05">
+        </label>
+        <label class="checkbox">
+          <input id="show-labels" type="checkbox">
+          鍵盤にキーを表示
+        </label>
+      </div>
+    </details>
   </header>
   <main class="stage" id="stage"></main>
   <div class="keyboard" id="keyboard" role="group" aria-label="鍵盤"></div>
