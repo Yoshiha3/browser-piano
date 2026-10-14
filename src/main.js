@@ -1,9 +1,11 @@
-import { buildLayout, parseNote } from './notes.js';
+import { buildLayout, parseNote, noteName } from './notes.js';
 import { Synth } from './synth.js';
 import { KeyboardUI } from './keyboard-ui.js';
 import { PressTracker } from './press-tracker.js';
 import { KeyboardInput } from './input.js';
-import { buildKeymap, labelsByNote, DEFAULT_BASE } from './keymap.js';
+import {
+  buildKeymap, labelsByNote, shiftBase, DEFAULT_BASE, SHIFT_SHORTCUTS,
+} from './keymap.js';
 
 const synth = new Synth();
 const tracker = new PressTracker();
@@ -26,10 +28,32 @@ const keyboard = new KeyboardUI(document.getElementById('keyboard'), {
 });
 keyboard.render(buildLayout(parseNote('C3'), parseNote('C6')));
 
-const input = new KeyboardInput({ onPress: press, onRelease: release });
-const keymap = buildKeymap(DEFAULT_BASE);
-input.setKeymap(keymap);
-keyboard.setKeyLabels(labelsByNote(keymap));
+let base = DEFAULT_BASE;
+
+function setBase(midi) {
+  base = midi;
+  const keymap = buildKeymap(base);
+  input.setKeymap(keymap);
+  keyboard.setKeyLabels(labelsByNote(keymap));
+  document.getElementById('base-display').textContent = `A = ${noteName(base)}`;
+}
+
+const input = new KeyboardInput({
+  onPress: press,
+  onRelease: release,
+  onShortcut(code) {
+    const steps = SHIFT_SHORTCUTS.get(code);
+    if (steps === undefined) return false;
+    setBase(shiftBase(base, steps));
+    return true;
+  },
+});
+
+for (const button of document.querySelectorAll('[data-shift]')) {
+  button.addEventListener('click', () => setBase(shiftBase(base, Number(button.dataset.shift))));
+}
+
+setBase(DEFAULT_BASE);
 
 // デバッグ・動作確認用
 window.piano = { synth, tracker, keyboard, input };

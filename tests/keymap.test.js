@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { buildKeymap, labelsByNote, normalizeBase } from '../src/keymap.js';
+import { buildKeymap, labelsByNote, normalizeBase, shiftBase, MIN_BASE, MAX_BASE } from '../src/keymap.js';
 import { parseNote, noteName } from '../src/notes.js';
 
 const names = (keymap, codes) => codes.map((c) => (keymap.has(c) ? noteName(keymap.get(c)) : null));
@@ -50,4 +50,17 @@ test('鍵盤ごとのキーラベル', () => {
   assert.equal(labels.get(61), 'w');
   assert.equal(labels.get(72), 'k');
   assert.equal(labels.has(59), false);
+});
+
+test('基準音のシフト', () => {
+  assert.equal(noteName(shiftBase(parseNote('C4'), -2)), 'A3'); // a をラに
+  assert.equal(noteName(shiftBase(parseNote('C4'), 7)), 'C5');
+  assert.equal(noteName(shiftBase(parseNote('E4'), 1)), 'F4');
+  assert.equal(noteName(shiftBase(parseNote('C#4'), 1)), 'D4'); // 黒鍵は白鍵にそろえてから
+});
+
+test('基準音のシフトはピアノの音域内に収める', () => {
+  assert.equal(shiftBase(parseNote('C1'), -7), MIN_BASE);
+  assert.equal(shiftBase(parseNote('C7'), 1), MAX_BASE);
+  assert.equal(shiftBase(MIN_BASE, -1), MIN_BASE);
 });

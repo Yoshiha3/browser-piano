@@ -48,6 +48,40 @@ body {
   font-weight: 600;
 }
 
+.control {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.control-label {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-right: 4px;
+}
+
+.toolbar button {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 8px;
+  border: 1px solid #3a3f4c;
+  border-radius: 6px;
+  background: #272b36;
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.toolbar button:hover {
+  background: #313644;
+}
+
+.base-display {
+  min-width: 5.5em;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
 .stage {
   position: relative;
   flex: 1;

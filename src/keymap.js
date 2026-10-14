@@ -66,3 +66,21 @@ export function labelsByNote(keymap) {
   for (const [code, midi] of keymap) labels.set(midi, LABELS.get(code));
   return labels;
 }
+
+/** 基準音の下限（A0）と上限（C7: 割当範囲がピアノの最高音 C8 付近に収まる） */
+export const MIN_BASE = 21;
+export const MAX_BASE = 96;
+
+/** 基準音を白鍵単位でずらす（7 で 1 オクターブ）。ピアノの音域内に収める */
+export function shiftBase(baseMidi, whiteSteps) {
+  const shifted = shiftWhite(normalizeBase(baseMidi), whiteSteps);
+  return Math.min(MAX_BASE, Math.max(MIN_BASE, shifted));
+}
+
+/** 割当範囲をずらすショートカット（KeyboardEvent.code → 白鍵数） */
+export const SHIFT_SHORTCUTS = new Map([
+  ['KeyZ', -7],
+  ['KeyX', 7],
+  ['Comma', -1],
+  ['Period', 1],
+]);

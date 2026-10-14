@@ -10,6 +10,14 @@
 <body>
   <header class="toolbar">
     <h1>Browser Piano</h1>
+    <div class="control" role="group" aria-label="キー割当の位置">
+      <span class="control-label">割当</span>
+      <button type="button" data-shift="-7" title="1 オクターブ下げる (Z)">«</button>
+      <button type="button" data-shift="-1" title="白鍵 1 つ下げる (,)">‹</button>
+      <output id="base-display" class="base-display"></output>
+      <button type="button" data-shift="1" title="白鍵 1 つ上げる (.)">›</button>
+      <button type="button" data-shift="7" title="1 オクターブ上げる (X)">»</button>
+    </div>
   </header>
   <main class="stage" id="stage"></main>
   <div class="keyboard" id="keyboard" role="group" aria-label="鍵盤"></div>
